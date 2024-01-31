@@ -3,18 +3,39 @@ window.onload = function() {
     fetch('http://localhost:8080/api/v1/pets')
         .then(response => response.json())
         .then(data => {
-            // Create a new div to hold the pet data
-            const petDataDiv = document.createElement('div');
+            // Create a new table element
+            const petTable = document.createElement('table');
 
-            // Loop through the data and add each pet's name and owner to the div
+            // Create table headers
+            const tableHeaders = document.createElement('tr');
+            const nameHeader = document.createElement('th');
+            const ownerHeader = document.createElement('th');
+
+            nameHeader.textContent = 'Name';
+            ownerHeader.textContent = 'Owner';
+
+            tableHeaders.appendChild(nameHeader);
+            tableHeaders.appendChild(ownerHeader);
+            petTable.appendChild(tableHeaders);
+
+            // Loop through the data and add each pet's name and owner to the table
             data.forEach(pet => {
-                const petElement = document.createElement('p');
-                petElement.textContent = `Name: ${pet.name}, Owner: ${pet.owner}`;
-                petDataDiv.appendChild(petElement);
+                const petRow = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = pet.name;
+
+                const ownerCell = document.createElement('td');
+                ownerCell.textContent = pet.owner;
+
+                petRow.appendChild(nameCell);
+                petRow.appendChild(ownerCell);
+
+                petTable.appendChild(petRow);
             });
 
-            // Append the div to the body of the page
-            document.body.appendChild(petDataDiv);
+            // Append the table to the body of the page
+            document.body.appendChild(petTable);
         })
         .catch(error => console.error('Error:', error));
 };
